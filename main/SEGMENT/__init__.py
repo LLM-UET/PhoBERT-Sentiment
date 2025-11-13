@@ -1,12 +1,16 @@
 import csv
 import subprocess
+from ..data import (
+    DEFAULT_RAW_PATH,
+    DEFAULT_SEGMENTED_PATH,
+)
 
 def do_SEGMENT(input_file_path=None, output_file_path=None):
     ENCODING = 'utf-8-sig' # UTF-8 with BOM (EF BB BF)
     RDRSEGMENTER_COMMAND = ["java", "-jar", "RDRsegmenter.jar", "STDIN"]
 
-    input_file_path = input_file_path or "./datasets/data.csv"
-    output_file_path = output_file_path or "./datasets/segmented.csv"
+    input_file_path = input_file_path or DEFAULT_RAW_PATH
+    output_file_path = output_file_path or DEFAULT_SEGMENTED_PATH
 
     # ChatGPT:
     # Added newline='' in the CSV output file to avoid double blank lines on Windows.

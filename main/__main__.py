@@ -27,5 +27,15 @@ def download_models_FINETUNED():
     from .DOWNLOAD_MODELS import do_DOWNLOAD_MODELS_FINETUNED
     do_DOWNLOAD_MODELS_FINETUNED()
 
+@cli.command()
+def split():
+    from .SPLIT import do_SPLIT
+    do_SPLIT()
+
+@cli.command()
+def finetune():
+    from .FINETUNE import do_FINETUNE
+    do_FINETUNE()
+
 if __name__ == "__main__":
     cli()

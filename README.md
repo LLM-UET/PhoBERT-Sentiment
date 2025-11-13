@@ -8,6 +8,9 @@
     - [Download RDRsegmenter JAR into project root](#download-rdrsegmenter-jar-into-project-root)
     - [Prepare the Datasets](#prepare-the-datasets)
   - [Input Segmentation](#input-segmentation)
+  - [Data Splitting](#data-splitting)
+  - [Finetuning](#finetuning)
+  - [References](#references)
 
 ## Prerequisites
 
@@ -113,3 +116,32 @@ same directory as `data.csv`.
 
 **It should not be run more than once**
 since `segment(segment(text)) != segment(text)`.
+
+## Data Splitting
+
+You must split `segmented.csv` into `train.csv`,
+`cv.csv`, and `test.csv`.
+
+To do that automatically:
+
+```sh
+source .venv/bin/activate
+uv run -m main split
+```
+
+## Finetuning
+
+```sh
+source .venv/bin/activate
+uv run -m main finetune
+```
+
+## References
+
+    @inproceedings{phobert,
+    title     = {{PhoBERT: Pre-trained language models for Vietnamese}},
+    author    = {Dat Quoc Nguyen and Anh Tuan Nguyen},
+    booktitle = {Findings of the Association for Computational Linguistics: EMNLP 2020},
+    year      = {2020},
+    pages     = {1037--1042}
+    }
