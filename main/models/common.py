@@ -1,6 +1,8 @@
-BASE_MODEL_DIR = "./models/phobert-base-local"
+import os
 
-FINETUNED_MODEL_DIR = "./models/finetuned-phobert-sentiment"
+BASE_MODEL_DIR = os.getenv("BASE_MODEL_DIR", "./models/phobert-base-local")
+
+FINETUNED_MODEL_DIR = os.getenv("FINETUNED_MODEL_DIR", "./models/finetuned-phobert-sentiment")
 
 LABELS = ['Positive', 'Neutral', 'Negative']
 
