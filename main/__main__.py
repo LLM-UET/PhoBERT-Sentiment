@@ -13,10 +13,19 @@ def segment():
 def download():
     pass
 
-@download.command(name="models")
+@download.group(name="models")
 def download_models():
-    from .DOWNLOAD_MODELS import do_DOWNLOAD_MODELS
-    do_DOWNLOAD_MODELS()
+    pass
+
+@download_models.command(name="BASE")
+def download_models_BASE():
+    from .DOWNLOAD_MODELS import do_DOWNLOAD_MODELS_BASE
+    do_DOWNLOAD_MODELS_BASE()
+
+@download_models.command(name="FINETUNED")
+def download_models_FINETUNED():
+    from .DOWNLOAD_MODELS import do_DOWNLOAD_MODELS_FINETUNED
+    do_DOWNLOAD_MODELS_FINETUNED()
 
 if __name__ == "__main__":
     cli()
