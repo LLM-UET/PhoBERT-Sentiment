@@ -29,28 +29,28 @@ uv sync
 
 ### Downloading the Models
 
-Base models (not finetuned):
+- **Base models** (not finetuned):
 
-```sh
-source .venv/bin/activate
-uv run -m main download models BASE
-```
+    ```sh
+    source .venv/bin/activate
+    uv run -m main download models BASE
+    ```
 
-If you want to download the finetuned models:
+    If you run the above commands
+    twice, the models would not be
+    downloaded again (i.e. it
+    guarantees idempotency).
 
-```sh
-source .venv/bin/activate
-uv run -m main download models FINETUNED
-```
+- **Finetuned models**:
 
-If you run one of the above commands
-twice, the models would not be
-downloaded again.
+    ```sh
+    source .venv/bin/activate
+    uv run -m main download models FINETUNED
+    ```
 
-Note that downloading a FINETUNED model
-will **overwrite an existing** BASE model
-(if downloaded) and vice versa (since
-they are placed in the same location).
+    Beware, though, that this command is
+    NOT idempotent. Running it the second
+    time means re-downloading the models.
 
 ### Download RDRsegmenter JAR into project root
   
