@@ -76,6 +76,8 @@ def do_FINETUNE(train_path=None, cv_path=None, test_path=None, input_model_dir=N
         output_dir=output_model_dir,
         eval_strategy="epoch",
         save_strategy="epoch",
+        save_total_limit=1, # keep only the best model
+        load_best_model_at_end=True, # and write it to root of output_model_dir
         learning_rate=LEARNING_RATE,
         per_device_train_batch_size=BATCH_SIZE,
         per_device_eval_batch_size=BATCH_SIZE,
@@ -83,7 +85,6 @@ def do_FINETUNE(train_path=None, cv_path=None, test_path=None, input_model_dir=N
         weight_decay=0.01,
         logging_dir="./logs",
         logging_steps=50,
-        load_best_model_at_end=True,
         metric_for_best_model="accuracy",
     )
 
