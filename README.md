@@ -1,23 +1,33 @@
 # PhoBERT Finetuning for Sentiment Classification
 
 - [PhoBERT Finetuning for Sentiment Classification](#phobert-finetuning-for-sentiment-classification)
-  - [Prerequisites](#prerequisites)
+  - [Foreword](#foreword)
   - [Setup](#setup)
+    - [Prerequisites](#prerequisites)
     - [Prepare the Python environment:](#prepare-the-python-environment)
     - [Downloading the Models](#downloading-the-models)
     - [Download RDRsegmenter JAR into project root](#download-rdrsegmenter-jar-into-project-root)
-    - [Prepare the Datasets](#prepare-the-datasets)
+  - [Prepare the Datasets](#prepare-the-datasets)
   - [Input Segmentation](#input-segmentation)
   - [Data Splitting](#data-splitting)
   - [Finetuning](#finetuning)
+  - [Inference](#inference)
   - [References](#references)
 
-## Prerequisites
+## Foreword
+
+**IF YOU JUST WANT INFERENCE**, just
+follow the instructions in:
+
+- [Setup](#setup)
+- [Inference](#inference)
+
+## Setup
+
+### Prerequisites
 
 - Python 3.12+
 - Java 1.8+
-
-## Setup
 
 ### Prepare the Python environment:
 
@@ -64,7 +74,7 @@ Checksumming:
 echo "a59636ec2ef9d1963d10d8c7a4033a710d606250b4c35949c519b059a6ab99a4  RDRsegmenter.jar" | sha256sum --check
 ```
 
-### Prepare the Datasets
+## Prepare the Datasets
 
 - Datasets must be CSV files, **without headers**,
   consisting of `text,label` entries.
@@ -135,6 +145,37 @@ uv run -m main split
 source .venv/bin/activate
 uv run -m main finetune
 ```
+
+## Inference
+
+```sh
+source .venv/bin/activate
+uv run -m main infer "text to infer"
+```
+
+**The input text must NOT be segmented.**
+
+You can use `\n` to denote newlines inside
+the input text string.
+
+Output will be printed directly to `stdout`.
+
+For interactive use (the downside: you
+cannot insert newlines as input, even `\n` ;
+pressing Enter means another query):
+
+```sh
+source .venv/bin/activate
+uv run -m main infer --interactive
+```
+
+To change the model used for inference, pass
+`--input-model-dir=/path/to/model`. Hint
+(assuming you've [downloaded the necessary models](#downloading-the-models),
+be it BASE, FINETUNED, or both):
+
+- By default, it uses the FINETUNED model.
+- To use BASE instead: pass the path `./models/phobert-base-local`.
 
 ## References
 

@@ -37,5 +37,26 @@ def finetune():
     from .FINETUNE import do_FINETUNE
     do_FINETUNE()
 
+@cli.command()
+@click.argument("text", type=str, required=False, default=None)
+@click.option("--input-model-dir", type=str, required=False, default=None)
+@click.option("--interactive", is_flag=True, type=bool, required=False, default=False)
+def infer(text: str, input_model_dir: str, interactive):
+    if not interactive:
+        if text is None:
+            raise RuntimeError(f"ERROR: No input text?")
+        else:
+            text = text.replace("\\n", '\n')
+
+    from .INFER import do_INFER
+    
+    result = do_INFER(
+        text=text,
+        input_model_dir=input_model_dir,
+        interactive=interactive,
+    )
+
+    print(result)
+
 if __name__ == "__main__":
     cli()

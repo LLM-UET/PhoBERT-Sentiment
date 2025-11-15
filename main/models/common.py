@@ -9,3 +9,5 @@ LABELS = ['Positive', 'Neutral', 'Negative']
 NUM_LABELS = len(LABELS)
 
 LABEL_TO_ID = {label: i for i, label in enumerate(LABELS)}
+
+ID_TO_LABEL = {i: label for i, label in enumerate(LABELS)}

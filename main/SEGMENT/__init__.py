@@ -5,7 +5,13 @@ from ..data import (
     DEFAULT_SEGMENTED_PATH,
 )
 
-def do_SEGMENT(input_file_path=None, output_file_path=None):
+def do_SEGMENT(input_file_path=None, output_file_path=None, silent=False):
+    if silent:
+        def PRINT(*args, **kwargs):
+            pass
+    else:
+        PRINT = print
+
     ENCODING = 'utf-8-sig' # UTF-8 with BOM (EF BB BF)
     RDRSEGMENTER_COMMAND = ["java", "-jar", "RDRsegmenter.jar", "STDIN"]
 
@@ -30,7 +36,7 @@ def do_SEGMENT(input_file_path=None, output_file_path=None):
             with open(input_file_path, 'r', encoding=ENCODING) as input_file:
                 reader = csv.reader(input_file)
                 for row in reader:
-                    print("Processing row:", row)
+                    PRINT("Processing row:", row)
                     text, label = row
                     text = text.replace('\\n', '\n')
 
@@ -55,7 +61,31 @@ def do_SEGMENT(input_file_path=None, output_file_path=None):
             ret = proc.wait()
         
     if ret != 0:
-        print("RDRsegmenter failed with code", ret)
-        print(stderr)
+        PRINT("RDRsegmenter failed with code", ret)
+        PRINT(stderr)
     else:
-        print(f"Success. Output written to: {output_file_path}")
+        PRINT(f"Success. Output written to: {output_file_path}")
+
+def segment_text_directly(text: str) -> str:
+    RDRSEGMENTER_COMMAND = ["java", "-jar", "RDRsegmenter.jar", "STDIN"]
+    proc = subprocess.Popen(
+        RDRSEGMENTER_COMMAND,
+        stdin=subprocess.PIPE,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        text=True,           # handle text instead of bytes
+        bufsize=1            # line-buffered I/O
+    )
+
+    proc.stdin.write(text + '\n')
+    proc.stdin.flush()
+    proc.stdin.close()
+
+    segmented_lines: list[str] = []
+    while True:
+        segmented_line = proc.stdout.readline().strip()
+        if not segmented_line:
+            break
+        segmented_lines.append(segmented_line)
+
+    return '\n'.join(segmented_lines)
