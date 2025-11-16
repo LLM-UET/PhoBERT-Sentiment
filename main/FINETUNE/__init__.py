@@ -98,7 +98,7 @@ def do_FINETUNE(train_path=None, cv_path=None, test_path=None, input_model_dir=N
         eval_dataset=encoded_datasets["cv"],
         tokenizer=tokenizer,
         compute_metrics=compute_metrics,
-        callbacks=[EarlyStoppingCallback(early_stopping_patience=2)],
+        callbacks=[EarlyStoppingCallback(early_stopping_patience=1)],
     )
 
     # -----------------------------
