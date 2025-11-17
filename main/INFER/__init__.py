@@ -1,4 +1,5 @@
 import time
+import sys
 
 class Inferer:
     def __init__(self, input_model_dir: str | None = None, silent=False):
@@ -50,6 +51,8 @@ class Inferer:
         with torch.no_grad():
             outputs = self.model(**encoded)
             logits = outputs.logits
+            print("LOGITS SHAPE:", logits.shape, file=sys.stderr)
+            print("LOGITS:", logits, file=sys.stderr)
             pred_id = torch.argmax(logits, dim=-1).item()
         
         end_time = time.monotonic_ns()
