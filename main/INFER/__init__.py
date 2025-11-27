@@ -31,6 +31,9 @@ class Inferer:
         from ..SEGMENT import segment_text_directly
         self.segment_text_directly = segment_text_directly
     
+    def segment(self, text: str):
+        return self.segment_text_directly(text)
+    
     def infer(self, text: str):
         self.LOG_INFO(f"Got input text: {text}")
 

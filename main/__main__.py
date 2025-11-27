@@ -58,5 +58,17 @@ def infer(text: str, input_model_dir: str, interactive):
 
     print(result)
 
+@cli.command()
+@click.option("--host", type=str, required=False, default=None)
+@click.option("--port", type=int, required=False, default=None)
+@click.option("--input-model-dir", type=str, required=False, default=None)
+def serve(host: str, port: int, input_model_dir: str):
+    from .SERVER import run_server
+    run_server(
+        input_model_dir=input_model_dir,
+        host=host,
+        port=port,
+    )
+
 if __name__ == "__main__":
     cli()

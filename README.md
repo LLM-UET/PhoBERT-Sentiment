@@ -14,6 +14,7 @@
   - [Data Splitting](#data-splitting)
   - [Finetuning](#finetuning)
   - [Inference](#inference)
+  - [RPC Server](#rpc-server)
   - [References](#references)
 
 ## Foreword
@@ -23,6 +24,7 @@ follow the instructions in:
 
 - [Setup](#setup)
 - [Inference](#inference)
+- and optionally [RPC Server](#rpc-server)
 
 ## Setup
 
@@ -203,6 +205,56 @@ be it BASE, FINETUNED, or both):
 
 - By default, it uses the FINETUNED model.
 - To use BASE instead: pass the path `./models/phobert-base-local`.
+
+## RPC Server
+
+Currently the server only exposes
+the Inference API.
+
+```sh
+source .venv/bin/activate
+uv run -m main serve
+```
+
+Add `--port=XXXX` if you want it
+to listen at a different port.
+
+Test (for default port at localhost):
+
+```sh
+curl http://localhost:8135/v1/infer --http1.1 -X POST -H 'Content-Type: text/plain' -d 'Xin chào các bạn yêu quý! Chúng tôi rất trân trọng tình cảm của các bạn...
+Hôm nay mọi người có vui không ạ?
+Hãy cho phép tôi được giới thiệu bản thân nhé!'
+```
+
+which should output `Positive`. Or:
+
+```sh
+curl http://localhost:8135/v1/infer --http1.1 -X POST -H 'Content-Type: text/plain' -d 'Làm ăn cái kiểu gì đấy hả?'
+```
+
+which should output `Negative`. Or:
+
+```sh
+curl http://localhost:8135/v1/infer --http1.1 -X POST -H 'Content-Type: text/plain' -d 'Ừ anh biết rồi, nói chung cũng tạm được :>'
+```
+
+which should output `Neutral` (or `Positive`, depending on training set). Or:
+
+```sh
+curl -s --write-out "\n\n<<< HTTP Code: %{http_code} >>>\n" http://localhost:8135/v1/infer --http1.1 -X POST
+```
+
+which should output:
+
+    No input text?
+
+    <<< HTTP Code: 400 >>>
+
+The protocol is, you expect to get 200 and response
+body `Positive`, `Negative`, `Neutral`; or some
+other code, in which case the response body
+contains the error message.
 
 ## References
 
