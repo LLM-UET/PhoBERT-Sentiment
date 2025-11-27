@@ -4,9 +4,11 @@
   - [Foreword](#foreword)
   - [Setup](#setup)
     - [Prerequisites](#prerequisites)
-    - [Prepare the Python environment:](#prepare-the-python-environment)
+    - [Prepare the Python environment](#prepare-the-python-environment)
     - [Downloading the Models](#downloading-the-models)
     - [Download RDRsegmenter JAR into project root](#download-rdrsegmenter-jar-into-project-root)
+    - [Run the RDRsegmenter TXT-RPC server](#run-the-rdrsegmenter-txt-rpc-server)
+    - [Setup Environment Variables](#setup-environment-variables)
   - [Prepare the Datasets](#prepare-the-datasets)
   - [Input Segmentation](#input-segmentation)
   - [Data Splitting](#data-splitting)
@@ -29,7 +31,7 @@ follow the instructions in:
 - Python 3.12+
 - Java 1.8+
 
-### Prepare the Python environment:
+### Prepare the Python environment
 
 ```sh
 uv venv
@@ -65,14 +67,39 @@ uv sync
 ### Download RDRsegmenter JAR into project root
   
 ```sh
-curl -L -O https://github.com/LLM-UET/RDRsegmenter/releases/download/0.9.0/RDRsegmenter.jar
+curl -L -O https://github.com/LLM-UET/RDRsegmenter/releases/download/0.9.1/RDRsegmenter.jar
 ```
 
 Checksumming:
 
 ```sh
-echo "a59636ec2ef9d1963d10d8c7a4033a710d606250b4c35949c519b059a6ab99a4  RDRsegmenter.jar" | sha256sum --check
+echo "47d3581e050bd686b9eac4727d4d453a5458d6b843e9b3c618a23f3654bdd7fa  RDRsegmenter.jar" | sha256sum --check
 ```
+
+### Run the RDRsegmenter TXT-RPC server
+
+This is required so that some stuff
+could use RDRsegmenter via text RPC
+(simple HTTP POST) to segment data,
+as you would see later.
+
+```sh
+java -jar RDRsegmenter.jar TXT-RPC
+```
+
+or, to customize port:
+
+```sh
+java -jar RDRsegmenter.jar TXT-RPC 8025
+```
+
+### Setup Environment Variables
+
+```sh
+cp .env.example .env
+```
+
+then edit the variables in `.env`.
 
 ## Prepare the Datasets
 
